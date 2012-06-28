@@ -1,0 +1,60 @@
+#!/usr/bin/env ruby
+
+require 'pdfkit'
+require 'trollop'
+require 'nokogiri'
+
+opts = Trollop::options do
+  banner "usage: any2pdf <file>"
+  opt :output, "output file", :default => ""
+  opt :stylesheet, "stylesheet to load", :default => ""
+  opt :input, "input file", :default => ""
+end
+
+mdfile = ARGV.first
+Trollop::die :input, "must be supplied" if mdfile.nil?
+Trollop::die :input, "#{mdfile} must exist" if not File::exists?(mdfile)
+
+def md2html(file, opts)
+  return nil if not file.end_with?(".md")
+  htmlfile = file.sub(/.md/,".html")
+
+  # create the html
+  styleopt = "-c #{opts[:stylesheet]}" if not opts[:stylesheet].nil? and not opts[:stylesheet].empty?
+  `pandoc #{file} -o #{htmlfile} #{styleopt}`
+  
+  htmlfile
+end
+
+def html2pdf(file, opts)
+  return nil if not file.end_with?(".html")
+  pdffile = file.sub(/.html/,".pdf")
+  pdffile = opts.output if not opts.output.nil? and not opts.output.empty?
+
+  styles = []
+  styles << opts.stylesheet
+
+  # find css files
+  dom = Nokogiri::parse( File::open(file).read() )
+  dom.css("link").each do |e| 
+    styles << e.attr("href")
+  end
+
+  options = { :footer_right => "[page]/[topage]" }
+  html = File::open(file).read()
+  kit = PDFKit.new(html, options)
+  
+  styles.compact.each do |style| 
+    kit.stylesheets << style if File::exists?(style)
+  end
+
+  kit.to_file(pdffile)
+  pdffile
+end
+
+htmlfile = md2html(mdfile, opts)
+print "ww input was not an md-file, trying to convert it as html..." if htmlfile.nil?
+print "htmlfile: #{htmlfile}\n" if not htmlfile.nil?
+outfile = html2pdf(mdfile, opts) || html2pdf(htmlfile, opts)
+print "ee couldn't convert file from html to pdf..." if outfile.nil?
+print "output: #{outfile}\n" if not outfile.nil?
