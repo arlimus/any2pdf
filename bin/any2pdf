@@ -15,20 +15,30 @@ mdfile = ARGV.first
 Trollop::die :input, "must be supplied" if mdfile.nil?
 Trollop::die :input, "#{mdfile} must exist" if not File::exists?(mdfile)
 
+def get_existing( f )
+  path = File::expand_path(f)
+  return path if File::exists?(path)
+  return nil
+end
+
 def get_style( stylename )
-  stylename = "style_default.css" if stylename.nil? or stylename.empty?
-  return stylename if File::exists?(stylename)
-  rel_path = File.expand_path('../Gemfile', File.dirname(__FILE__))
-  internal_style = File::expand_path("#{rel_path}/../lib/#{stylename}")
-  return internal_style if File::exists?(internal_style)
-  print "ww couldn't find stylesheet in ./#{stylename} nor #{internal_style}. Trying default.\n"
+  rel_path = File.expand_path('../Gemfile/../lib', File.dirname(__FILE__))
+
+  if not stylename.nil? and not stylename.empty?
+    return stylename if File::exists?(stylename)
+
+    a =
+      get_existing("#{rel_path}/#{stylename}.css") ||
+      get_existing("#{rel_path}/#{stylename}")
+    return a if not a.nil?
+    print "ww couldn't find stylesheet #{stylename}. Trying default.\n"
+  end
 
   # try default, if the user supplied crap...
-  stylename = "style_default.css"
-  internal_style = File::expand_path("#{rel_path}/../lib/#{stylename}")
-  return internal_style if File::exists?(internal_style)
-  print "ee Couldn't find internal stylesheet in #{internal_style}. Something is seriously wrong! try reinstalling?\n"
-  internal_style
+  a = get_existing("#{rel_path}/style_default.css")
+  return a if not a.nil?
+  print "ee Couldn't find internal stylesheet in #{rel_path}/style_default.css. Something is seriously wrong! try reinstalling?\n"
+  ""
 end
 
 def md2html(file, opts, style)
