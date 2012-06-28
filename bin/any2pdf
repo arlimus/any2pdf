@@ -15,13 +15,28 @@ mdfile = ARGV.first
 Trollop::die :input, "must be supplied" if mdfile.nil?
 Trollop::die :input, "#{mdfile} must exist" if not File::exists?(mdfile)
 
-def md2html(file, opts)
+def get_style( stylename )
+  stylename = "style_default.css" if stylename.nil? or stylename.empty?
+  return stylename if File::exists?(stylename)
+  rel_path = File.expand_path('../Gemfile', File.dirname(__FILE__))
+  internal_style = File::expand_path("#{rel_path}/../lib/#{stylename}")
+  return internal_style if File::exists?(internal_style)
+  print "ww couldn't find stylesheet in ./#{stylename} nor #{internal_style}. Trying default.\n"
+
+  # try default, if the user supplied crap...
+  stylename = "style_default.css"
+  internal_style = File::expand_path("#{rel_path}/../lib/#{stylename}")
+  return internal_style if File::exists?(internal_style)
+  print "ee Couldn't find internal stylesheet in #{internal_style}. Something is seriously wrong! try reinstalling?\n"
+  internal_style
+end
+
+def md2html(file, opts, style)
   return nil if not file.end_with?(".md")
   htmlfile = file.sub(/.md/,".html")
 
   # create the html
-  styleopt = "-c #{opts[:stylesheet]}" if not opts[:stylesheet].nil? and not opts[:stylesheet].empty?
-  `pandoc #{file} -o #{htmlfile} #{styleopt}`
+  `pandoc #{file} -o #{htmlfile} -c #{style}`
   
   htmlfile
 end
@@ -52,9 +67,11 @@ def html2pdf(file, opts)
   pdffile
 end
 
-htmlfile = md2html(mdfile, opts)
+style = get_style( opts[:stylesheet] )
+print "-- using stylesheet: #{style}\n"
+htmlfile = md2html(mdfile, opts, style)
 print "ww input was not an md-file, trying to convert it as html..." if htmlfile.nil?
-print "htmlfile: #{htmlfile}\n" if not htmlfile.nil?
+print "++ htmlfile: #{htmlfile}\n" if not htmlfile.nil?
 outfile = html2pdf(mdfile, opts) || html2pdf(htmlfile, opts)
 print "ee couldn't convert file from html to pdf..." if outfile.nil?
-print "output: #{outfile}\n" if not outfile.nil?
+print "++ output: #{outfile}\n" if not outfile.nil?
