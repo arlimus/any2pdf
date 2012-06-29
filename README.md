@@ -1,15 +1,16 @@
 Any2Pdf
 ========
 
-Convert things to PDF.
+Convert things to PDF. This is a quick and dirty collection of scripts I have grown accustomed to coupled with an inherent lazyness to enter tedious commands. Remember: it is dirty by design.
 
 Currently supports:
+
 * Markdown
 * HTML
 
 (Ok, it is currently not really *Any*2Pdf yet... The motivation is clear.)
 
-It uses available tools to do so, this is just a lazy framework to glue it together.
+It uses available tools to do so, it just glues them together.
 
 Requirements
 ============
