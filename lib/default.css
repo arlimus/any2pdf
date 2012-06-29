@@ -1,4 +1,4 @@
-/*Telekom CSS*/
+/*Default CSS*/
 
 body {
   font-family: "DejaVu Sans";
@@ -7,6 +7,11 @@ body {
   margin-right: auto;
   background-color: #fff;
   font-size: 14px;
+}
+
+a {
+  color: #1078dd;
+  text-decoration: none;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -19,17 +24,19 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1, h2 {
-  color: #e2007f;
+  color: #000000;
 }
 
 h1 {
   font-size: 30px;
-  margin: 30px 0 40px 0;
+  margin: 50px 0 40px 0;
 }
 
 h2 {
   border-bottom: 1px solid #CCC;
   font-size: 22px;
+  padding: 0 0 3px 0;
+  margin: 40px 0 20px 0;
 }
 
 h3 {

@@ -35,9 +35,9 @@ def get_style( stylename )
   end
 
   # try default, if the user supplied crap...
-  a = get_existing("#{rel_path}/style_default.css")
+  a = get_existing("#{rel_path}/default.css")
   return a if not a.nil?
-  print "ee Couldn't find internal stylesheet in #{rel_path}/style_default.css. Something is seriously wrong! try reinstalling?\n"
+  print "ee Couldn't find internal stylesheet in #{rel_path}/default.css. Something is seriously wrong! try reinstalling?\n"
   ""
 end
 

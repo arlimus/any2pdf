@@ -58,23 +58,28 @@ code {
   line-height: 1.3em;
   font-family: "DejaVu Sans Mono";
   padding: 1px 3px 1px 3px;
-  border: 1px solid #cde;
+  border-width: 1px;
+  border-style: solid;
   border-radius: 4px;
+}
+
+pre {
+  padding: 6px 10px;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 6px;
+}
+
+code, pre {
   color: black;
   background-color: #d0e8FF;
+  border-color: #cde;
 }
 
 pre code {
   border: 0px;
   padding: 0px;
   background-color: inherit;
-}
-
-pre {
-  background-color: #d0e8FF;
-  padding: 6px 10px;
-  border: 1px solid #cde;
-  border-radius: 6px;
 }
 
 .highlight pre, pre, code, tt {
