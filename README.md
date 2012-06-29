@@ -7,7 +7,7 @@ Currently supports:
 * Markdown
 * HTML
 
-(Ok, it is currently not really **Any**2Pdf yet... The motivation is clear.)
+(Ok, it is currently not really *Any*2Pdf yet... The motivation is clear.)
 
 It uses available tools to do so, this is just a lazy framework to glue it together.
 
@@ -21,9 +21,9 @@ Requirements
 Installation
 ============
 
-Install requirements on your system.
+**1.** **Install requirements**
 
-Eg for Ubuntu:
+Eg for **Ubuntu**:
 
     # in case you don't have ruby:
     apt-get install ruby1.9.3
@@ -31,15 +31,20 @@ Eg for Ubuntu:
 
     apt-get install pandoc
 
-Eg for Arch Linux: Get `pandoc` from AUR, easiest done via `yaourt`
+Eg for **Arch Linux**: Get `pandoc` from AUR, easiest done via `yaourt`
 
     yaourt -S ruby
     yaourt -S pandoc
 
-Now on any system:
+**2.** **Install this app**
+
+Get the files if you don't have them already:
 
     git clone <this-git-repo>
     cd any2pdf
+
+And install:
+
     gem build *.gemspec && gem install *.gem
 
 It will pull in dependencies. If everything is correctly configured, you can use the command now.
@@ -55,7 +60,7 @@ Try it
 
     any2pdf test.md
 
-View the pdf. View the html.
+View `test.pdf`. View `test.html`.
 
 Try styles:
 
@@ -64,15 +69,30 @@ Try styles:
 
 Try global styles:
 
-    # use default styles
     any2pdf test.md -s blue
+
+
+Custom Global Styles
+====================
 
 This is for the very lazy (like me). Put your own styles into the installed gem folder under `lib/`, eg:
 
     cd ~/.gem/ruby/1.9.1/gems/any2pdf-1.0.0/lib/
     ls
+    touch mysexystyle.css
 
-You can also replace `default.css` here if you like...
+And now you can use it with either:
+
+    any2pdf test.md -s mysexystyle.css
+
+Or just:
+
+    any2pdf test.md -s mysexystyle
+
+You can also replace `default.css` if you like. It's called if you don't use the `-s` option, eg:
+
+    any2pdf test.md
+
 
 License and Author
 ==================
