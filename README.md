@@ -57,14 +57,22 @@ Try it
 
 View the pdf. View the html.
 
-Try styles
+Try styles:
 
     # have mystyle.css in your folder
     any2pdf test.md -s mystyle.css
 
+Try global styles:
+
     # use default styles
     any2pdf test.md -s blue
 
+This is for the very lazy (like me). Put your own styles into the installed gem folder under `lib/`, eg:
+
+    cd ~/.gem/ruby/1.9.1/gems/any2pdf-1.0.0/lib/
+    ls
+
+You can also replace `default.css` here if you like...
 
 License and Author
 ==================
