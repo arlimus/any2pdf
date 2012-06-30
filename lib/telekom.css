@@ -9,6 +9,11 @@ body {
   font-size: 14px;
 }
 
+a {
+  color: #1078dd;
+  text-decoration: none;
+}
+
 h1, h2, h3, h4, h5, h6 {
   cursor: text;
   font-weight: bold;
@@ -30,6 +35,8 @@ h1 {
 h2 {
   border-bottom: 1px solid #CCC;
   font-size: 22px;
+  padding: 0 0 3px 0;
+  margin: 40px 0 20px 0;
 }
 
 h3 {
