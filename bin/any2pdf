@@ -3,14 +3,17 @@
 require 'pdfkit'
 require 'trollop'
 require 'nokogiri'
+require 'zlog'
 
 opts = Trollop::options do
   banner "usage: any2pdf <file>"
+  opt :verbose, "be verbose"
+  opt :debug, "provides debugging infos"
   opt :output, "output file", :default => ""
   opt :stylesheet, "stylesheet to load", :default => ""
   opt :input, "input file", :default => ""
-  opt :view, "what to view (pdf|html|none)", :default => "pdf"
   opt :view_cmd, "command used for viewing", :default => "v %s"
+  opt :view, "what to view (pdf|html|none)", :default => "pdf"
 end
 
 mdfile = ARGV.first
@@ -33,13 +36,13 @@ def get_style( stylename )
       get_existing("#{rel_path}/#{stylename}.css") ||
       get_existing("#{rel_path}/#{stylename}")
     return a if not a.nil?
-    print "ww couldn't find stylesheet #{stylename}. Trying default.\n"
+    Zlog.warning "couldn't find stylesheet #{stylename}. Trying default.\n"
   end
 
   # try default, if the user supplied crap...
   a = get_existing("#{rel_path}/default.css")
   return a if not a.nil?
-  print "ee Couldn't find internal stylesheet in #{rel_path}/default.css. Something is seriously wrong! try reinstalling?\n"
+  Zlog.error "Couldn't find internal stylesheet in #{rel_path}/default.css. Something is seriously wrong! try reinstalling?\n"
   ""
 end
 
@@ -80,13 +83,13 @@ def html2pdf(file, opts)
 end
 
 style = get_style( opts[:stylesheet] )
-print "-- using stylesheet: #{style}\n"
+Zlog.info "using stylesheet: #{style}\n"
 htmlfile = md2html(mdfile, opts, style)
-print "ww input was not an md-file, trying to convert it as html..." if htmlfile.nil?
-print "++ htmlfile: #{htmlfile}\n" if not htmlfile.nil?
+Zlog.warn "ww input was not an md-file, trying to convert it as html..." if htmlfile.nil?
+Zlog.ok "htmlfile: #{htmlfile}\n" if not htmlfile.nil?
 pdffile = html2pdf(mdfile, opts) || html2pdf(htmlfile, opts)
-print "ee couldn't convert file from html to pdf..." if pdffile.nil?
-print "++ output: #{pdffile}\n" if not pdffile.nil?
+Zlog.error "couldn't convert file from html to pdf..." if pdffile.nil?
+Zlog.ok "output: #{pdffile}\n" if not pdffile.nil?
 
 cmd = ""
 case opts[:view]
@@ -96,7 +99,10 @@ when "html"
   cmd = opts[:view_cmd] % htmlfile
 when "none"
 else
-  print "ww don't know '#{opts[:view]}' to view\n"
+  Zlog.warn "don't know '#{opts[:view]}' to view\n"
 end
 
-system cmd if not cmd.empty?
+if not cmd.empty?
+  Zlog.info "view with: '#{cmd}'"
+  system cmd
+end
