@@ -9,6 +9,8 @@ opts = Trollop::options do
   opt :output, "output file", :default => ""
   opt :stylesheet, "stylesheet to load", :default => ""
   opt :input, "input file", :default => ""
+  opt :view, "what to view (pdf|html|none)", :default => "pdf"
+  opt :view_cmd, "command used for viewing", :default => "v %s"
 end
 
 mdfile = ARGV.first
@@ -82,6 +84,19 @@ print "-- using stylesheet: #{style}\n"
 htmlfile = md2html(mdfile, opts, style)
 print "ww input was not an md-file, trying to convert it as html..." if htmlfile.nil?
 print "++ htmlfile: #{htmlfile}\n" if not htmlfile.nil?
-outfile = html2pdf(mdfile, opts) || html2pdf(htmlfile, opts)
-print "ee couldn't convert file from html to pdf..." if outfile.nil?
-print "++ output: #{outfile}\n" if not outfile.nil?
+pdffile = html2pdf(mdfile, opts) || html2pdf(htmlfile, opts)
+print "ee couldn't convert file from html to pdf..." if pdffile.nil?
+print "++ output: #{pdffile}\n" if not pdffile.nil?
+
+cmd = ""
+case opts[:view]
+when "pdf"
+  cmd = opts[:view_cmd] % pdffile
+when "html"
+  cmd = opts[:view_cmd] % htmlfile
+when "none"
+else
+  print "ww don't know '#{opts[:view]}' to view\n"
+end
+
+system cmd if not cmd.empty?
