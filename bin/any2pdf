@@ -51,7 +51,7 @@ def md2html(file, opts, style)
   htmlfile = file.sub(/.md/,".html")
 
   # create the html
-  `pandoc #{file} -o #{htmlfile} -c #{style}`
+  `pandoc "#{file}" -o "#{htmlfile}" -c #{style}`
   
   htmlfile
 end
@@ -94,9 +94,9 @@ Zlog.ok "output: #{pdffile}\n" if not pdffile.nil?
 cmd = ""
 case opts[:view]
 when "pdf"
-  cmd = opts[:view_cmd] % pdffile
+  cmd = opts[:view_cmd] % [ '"'+pdffile+'"' ]
 when "html"
-  cmd = opts[:view_cmd] % htmlfile
+  cmd = opts[:view_cmd] % [ '"'+htmlfile+'"' ]
 when "none"
 else
   Zlog.warn "don't know '#{opts[:view]}' to view\n"
