@@ -62,3 +62,128 @@ table{
     border-collapse:collapse;
     border-spacing:0;
 }
+
+/*
+Base formatting for an2pdf
+Written by: 2013 CC, Dominik Richter;
+*/
+
+body{
+  line-height: 1.3em;
+  font-family: "Akzidenz-Grotesk BQ Regular", sans-serif;
+  counter-reset: figure;
+}
+
+ul {
+  list-style: disc;
+  list-style-position: outside;
+  /*left margin correction, it's too far outside*/
+  margin-left: 1.3em;
+  margin-bottom: 1.3em;
+  margin-top: -0.2em;
+}
+
+li {
+  margin: 0.5em 0 0.5em 0em;
+}
+
+h1 {
+  font-size: 1.7em;
+  margin: 2em 0 1em 0;
+}
+
+h2 {
+  font-size: 1.4em;
+  margin: 1.4em 0 0.8em 0;
+}
+
+h3 {
+  font-size: 1.2em;
+  margin: 1.2em 0 0.7em 0;
+}
+
+h4 {
+  font-size: 16px;
+  margin: 1.2em 0 0.7em 0;
+}
+
+h5 {
+  font-size: 14px;
+  margin-top: 1.0em;
+}
+
+h6 {
+  font-size: 14px;
+  margin-top: 1.0em;
+}
+
+p{
+  margin: 0.7em 0;
+}
+
+.figure{
+  margin-bottom: 1.5em;
+}
+
+.figure > img{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.figure > .caption{
+  text-align: center;
+  font-style: italic;
+}
+
+.figure > .caption:before{
+  content: "Figure " counter(figure) ":  ";
+  counter-increment: figure;
+}
+
+.highlight pre, pre, code, tt {
+  font-size: 0.9em !important;
+}
+
+code {
+  line-height: 1.3em;
+  padding: 1px 3px 1px 3px;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 4px;
+}
+
+pre {
+  padding: 6px 10px;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 6px;
+}
+
+code, pre {
+  color: black;
+  background-color: #FCF7EC;
+  border-color: #ccc;
+  margin: 0;
+
+  font-family: "DejaVu Sans Mono","Consolas",monospace;
+  overflow: auto;
+  text-align:left;
+
+  overflow-x: auto; /* Use horizontal scroller if needed;*/
+  white-space: pre-wrap;       /* css-3 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+pre code {
+  border: 0px;
+  padding: 0px;
+  background-color: inherit;
+}
+
+img {
+  max-width: 100%;
+}
