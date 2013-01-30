@@ -55,7 +55,7 @@ def md2html(file, opts, style)
   raw_heading = <<-EOF
     <link rel="stylesheet" href="#{rel_path}/boilerplate.css" />
     <link rel="stylesheet" href="#{style}" />
-    <link rel="stylesheet" href="#{rel_path}/print.css" />
+    <link rel="stylesheet" href="#{rel_path}/print.css" media="print"/>
   EOF
 
   # create the html
