@@ -49,9 +49,22 @@ end
 def md2html(file, opts, style)
   return nil if not file.end_with?(".md")
   htmlfile = file.sub(/.md/,".html")
+  htmlfile_raw = htmlfile+".raw.html"
+
+  rel_path = File.expand_path('../Gemfile/../lib', File.dirname(__FILE__))
+  raw_heading = <<-EOF
+    <link rel="stylesheet" href="#{rel_path}/boilerplate.css" />
+    <link rel="stylesheet" href="#{style}" />
+    <link rel="stylesheet" href="#{rel_path}/print.css" />
+  EOF
 
   # create the html
-  `pandoc "#{file}" -o "#{htmlfile}" -c #{style}`
+  `pandoc "#{file}" -o "#{htmlfile_raw}"`
+  raw_html = File::read htmlfile_raw
+
+  renderer = ERB.new(File::read(rel_path + "/template.html.erb"))
+  html = renderer.result(binding)
+  File::write htmlfile, html
   
   htmlfile
 end
@@ -70,7 +83,10 @@ def html2pdf(file, opts)
     styles << e.attr("href")
   end
 
-  options = { :footer_right => "[page]/[topage]" }
+  options = {
+    footer_right:   "[page]/[topage]",
+    page_size:      'A4',
+  }
   html = File::open(file).read()
   kit = PDFKit.new(html, options)
   
