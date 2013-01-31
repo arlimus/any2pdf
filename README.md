@@ -17,7 +17,8 @@ Requirements
 
 * Ruby
 * Pandoc
-* Gems: pdfkit, trollop, nokogiri
+* pdfkit ruby gem + wkhtmltopdf
+* other gems: trollop, nokogiri
 
 Installation
 ============
@@ -30,12 +31,12 @@ Eg for **Ubuntu**:
     apt-get install ruby1.9.3
     # or use any other ruby version / rvm / etc you like
 
-    apt-get install pandoc
+    apt-get install pandoc wkhtmltopdf
 
 Eg for **Arch Linux**: Get `pandoc` from AUR, easiest done via `yaourt`
 
     yaourt -S ruby
-    yaourt -S pandoc
+    yaourt -S pandoc wkhtmltopdf
 
 **2.** **Install this app**
 
@@ -49,6 +50,7 @@ And install:
     gem build *.gemspec && gem install *.gem
 
 It will pull in dependencies. If everything is correctly configured, you can use the command now.
+
 
 Usage
 =====
