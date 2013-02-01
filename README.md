@@ -78,9 +78,9 @@ Try global styles:
 Custom Global Styles
 ====================
 
-This is for the very lazy (like me). Put your own styles into the installed gem folder under `lib/`, eg:
+This is for the very lazy (like me). Put your own styles into the installed gem folder under `data/`, eg:
 
-    cd ~/.gem/ruby/1.9.1/gems/any2pdf-1.0.0/lib/
+    cd ~/.gem/ruby/1.9.1/gems/any2pdf-1.0.0/data/
     ls
     touch mysexystyle.css
 

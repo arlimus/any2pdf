@@ -27,7 +27,7 @@ def get_existing( f )
 end
 
 def get_style( stylename )
-  rel_path = File.expand_path('../Gemfile/../lib', File.dirname(__FILE__))
+  rel_path = File.expand_path('../Gemfile/../data', File.dirname(__FILE__))
 
   if not stylename.nil? and not stylename.empty?
     return stylename if File::exists?(stylename)
@@ -51,7 +51,7 @@ def md2html(file, opts, style)
   htmlfile = file.sub(/.md/,".html")
   htmlfile_raw = htmlfile+".raw.html"
 
-  rel_path = File.expand_path('../Gemfile/../lib', File.dirname(__FILE__))
+  rel_path = File.expand_path('../Gemfile/../data', File.dirname(__FILE__))
   raw_heading = <<-EOF
     <link rel="stylesheet" href="#{rel_path}/boilerplate.css" />
     <link rel="stylesheet" href="#{style}" />
