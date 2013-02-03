@@ -215,3 +215,14 @@ ol.toc > li {
 ol.toc_lvl1 > li {
   font-weight: bold;
 }
+
+/*add numbering*/
+body { counter-reset: head1; }
+
+h1.numbering:before  { counter-increment: head1;   counter-reset: head2; }
+h2.numbering:before  { counter-increment: head2;   counter-reset: head3; }
+h3.numbering:before  { counter-increment: head3;   counter-reset: head4; }
+
+h1.numbering:before  { content: counter(head1) ". "; }
+h2.numbering:before  { content: counter(head1) "." counter(head2) " "; }
+h3.numbering:before  { content: counter(head1) "." counter(head2) "." counter(head3) " "; }

@@ -13,6 +13,9 @@
         up to level <%= toc_level %>*/
         for( var lvl=1; lvl <= <%= toc_level %>; lvl++){
           $("h"+lvl).addClass("in_toc")
+          <% if number_headings %>
+          $("h"+lvl).addClass("numbering")
+          <% end %>
         }
         window.gen_toc();
       }

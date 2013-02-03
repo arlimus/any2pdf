@@ -16,6 +16,7 @@ opts = Trollop::options do
   opt :view, "what to view (pdf|html|none)", :default => "pdf"
   opt :toc, "generate a table of contents"
   opt :toc_level, "which depth if headings to include in ToC", :default => 2, :type => :int
+  opt :numbering, "whether to add numbering to all headings"
 end
 
 # sanity checks
@@ -73,6 +74,7 @@ def md2html(file, opts, style)
   `pandoc "#{file}" -o "#{htmlfile_raw}"`
   raw_html = File::read htmlfile_raw
   toc_level = opts[:toc_level]
+  number_headings = (opts[:numbering] == true)
 
   renderer = ERB.new(File::read(rel_path + "/template.html.erb"))
   html = renderer.result(binding)
