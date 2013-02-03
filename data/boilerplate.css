@@ -71,6 +71,8 @@ Written by: 2013 CC, Dominik Richter;
 body{
   line-height: 1.3em;
   font-family: "Akzidenz-Grotesk BQ Regular", sans-serif;
+  /* initialize counters */
+  counter-reset: head1;
   counter-reset: figure;
 }
 
@@ -132,13 +134,13 @@ p{
 }
 
 .figure > .caption{
+  counter-increment: figure;
   text-align: center;
   font-style: italic;
 }
 
 .figure > .caption:before{
   content: "Figure " counter(figure) ":  ";
-  counter-increment: figure;
 }
 
 .highlight pre, pre, code, tt {
@@ -217,11 +219,9 @@ ol.toc_lvl1 > li {
 }
 
 /*add numbering*/
-body { counter-reset: head1; }
-
-h1.numbering:before  { counter-increment: head1;   counter-reset: head2; }
-h2.numbering:before  { counter-increment: head2;   counter-reset: head3; }
-h3.numbering:before  { counter-increment: head3;   counter-reset: head4; }
+h1.numbering  { counter-increment: head1;   counter-reset: head2; }
+h2.numbering  { counter-increment: head2;   counter-reset: head3; }
+h3.numbering  { counter-increment: head3;   counter-reset: head4; }
 
 h1.numbering:before  { content: counter(head1) ". "; }
 h2.numbering:before  { content: counter(head1) "." counter(head2) " "; }
