@@ -187,3 +187,13 @@ pre code {
 img {
   max-width: 100%;
 }
+
+/*Table of Contents styling*/
+ol.toc {
+  padding: 0;
+  list-style: none
+}
+
+ol.toc span:first-child:after {
+  content: leader(dotted)
+}

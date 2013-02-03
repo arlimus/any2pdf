@@ -28,7 +28,7 @@ $(function () {
 
     // Open parent lists if a child list follows.
     while (assigned_level < current_level) {
-      toc_html += "<ol>";
+      toc_html += "<ol class=\"toc\">";
       assigned_level += 1;
     }
 
