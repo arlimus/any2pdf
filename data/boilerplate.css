@@ -76,6 +76,10 @@ body{
   counter-reset: figure;
 }
 
+strong {
+  font-weight:bold;
+}
+
 ul {
   list-style: disc;
   list-style-position: outside;
