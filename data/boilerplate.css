@@ -226,3 +226,28 @@ h3.numbering:before  { counter-increment: head3;   counter-reset: head4; }
 h1.numbering:before  { content: counter(head1) ". "; }
 h2.numbering:before  { content: counter(head1) "." counter(head2) " "; }
 h3.numbering:before  { content: counter(head1) "." counter(head2) "." counter(head3) " "; }
+
+/*table styling*/
+table {
+  margin: 1em 0 1.5em 0;
+  border-top: 0.22em solid black;
+  border-bottom: 0.22em solid black;
+}
+
+td, th {
+  text-align: left;
+}
+
+td {
+  padding: 0.17em 2em 0.17em 0;
+}
+
+td:last-child, th:last-child {
+  padding-right: 0;
+}
+
+th {
+  padding: 0.4em 2em 0.17em 0;
+  border-bottom: 0.13em solid black;
+  font-weight: bold;
+}
