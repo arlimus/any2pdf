@@ -187,3 +187,31 @@ pre code {
 img {
   max-width: 100%;
 }
+
+/*Table of Contents styling*/
+ol.toc {
+  padding: 0;
+  list-style: none
+}
+
+/*add leaders if we use them...*/
+ol.toc span:first-child:after {
+  content: leader(dotted)
+}
+
+/*add the text*/
+.toc_heading:after {
+  content: "Table of Contents";
+}
+
+ol.toc > li > ol.toc {
+  margin-left: 2em;
+}
+
+ol.toc > li {
+  font-weight: normal;
+}
+
+ol.toc_lvl1 > li {
+  font-weight: bold;
+}

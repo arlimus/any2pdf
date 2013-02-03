@@ -14,7 +14,13 @@ opts = Trollop::options do
   opt :input, "input file", :default => ""
   opt :view_cmd, "command used for viewing", :default => "v %s"
   opt :view, "what to view (pdf|html|none)", :default => "pdf"
+  opt :toc, "generate a table of contents"
+  opt :toc_level, "which depth if headings to include in ToC", :default => 2, :type => :int
 end
+
+# sanity checks
+Trollop::die :toc_level, "must not be lower than 1" if opts[:toc_level] < 1
+Trollop::die :toc_level, "must not be higher than 6" if opts[:toc_level] > 6
 
 mdfile = ARGV.first
 Trollop::die :input, "must be supplied" if mdfile.nil?
@@ -56,11 +62,17 @@ def md2html(file, opts, style)
     <link rel="stylesheet" href="#{rel_path}/boilerplate.css" />
     <link rel="stylesheet" href="#{style}" />
     <link rel="stylesheet" href="#{rel_path}/print.css" media="print"/>
+    <script src="#{rel_path}/jquery-1.9.0.min.js" ></script>
   EOF
+
+  # table of contents
+  toc_generator = ''
+  toc_generator = "<script src=\"#{rel_path}/toc_generator.js\"></script>" if opts[:toc]
 
   # create the html
   `pandoc "#{file}" -o "#{htmlfile_raw}"`
   raw_html = File::read htmlfile_raw
+  toc_level = opts[:toc_level]
 
   renderer = ERB.new(File::read(rel_path + "/template.html.erb"))
   html = renderer.result(binding)

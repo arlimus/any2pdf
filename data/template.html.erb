@@ -4,8 +4,23 @@
     <meta charset="utf-8">
     <title>any2pdf</title>
     <%= raw_heading %>
+    <%= toc_generator %>
+    <script>
+    $(document).ready(function() {
+      /* generate table of contents if required */
+      if( typeof(window.gen_toc) == "function" ){
+        /* make sure to only include headings in toc which are necessary
+        up to level <%= toc_level %>*/
+        for( var lvl=1; lvl <= <%= toc_level %>; lvl++){
+          $("h"+lvl).addClass("in_toc")
+        }
+        window.gen_toc();
+      }
+    });
+    </script>
   </head>
   <body id="home">
+    <div id="toc" ></div>
     <%= raw_html %>
   </body>
 </html>
