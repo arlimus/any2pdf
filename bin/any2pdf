@@ -56,6 +56,7 @@ def md2html(file, opts, style)
     <link rel="stylesheet" href="#{rel_path}/boilerplate.css" />
     <link rel="stylesheet" href="#{style}" />
     <link rel="stylesheet" href="#{rel_path}/print.css" media="print"/>
+    <script src="#{rel_path}/jquery-1.9.0.min.js" />
   EOF
 
   # create the html
