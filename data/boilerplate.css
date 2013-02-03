@@ -80,13 +80,16 @@ strong {
   font-weight:bold;
 }
 
-ul {
-  list-style: disc;
+ul, ol {
   list-style-position: outside;
   /*left margin correction, it's too far outside*/
-  margin-left: 1.3em;
-  margin-bottom: 1.3em;
-  margin-top: -0.2em;
+  margin: -0.2em 0 1.3em 1.3em;
+}
+
+ol { margin-left: 1.5em; }
+
+ul {
+  list-style: disc;
 }
 
 li {
