@@ -50,5 +50,8 @@ $(function () {
     assigned_level -= 1;
   }
 
-  $("#toc").html(toc_html);
+  $("#toc").html(
+    "<h1 class='toc_heading' />" +
+    toc_html
+  );
 });

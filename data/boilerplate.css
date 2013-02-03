@@ -194,6 +194,16 @@ ol.toc {
   list-style: none
 }
 
+/*add leaders if we use them...*/
 ol.toc span:first-child:after {
   content: leader(dotted)
+}
+
+/*add the text*/
+.toc_heading:after {
+  content: "Table of Contents";
+}
+
+ol.toc > li > ol.toc {
+  margin-left: 2em;
 }
