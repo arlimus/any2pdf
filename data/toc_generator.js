@@ -16,7 +16,7 @@ $(function () {
     }
   });
 
-  $("h1,h2,h3").each( function () {
+  $("h1,h2").each( function () {
     current_level = this.nodeName.charAt(1);
 
     $(this).attr('id', "toc-" + id_number);
