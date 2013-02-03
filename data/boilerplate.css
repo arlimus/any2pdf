@@ -207,3 +207,11 @@ ol.toc span:first-child:after {
 ol.toc > li > ol.toc {
   margin-left: 2em;
 }
+
+ol.toc > li {
+  font-weight: normal;
+}
+
+ol.toc_lvl1 > li {
+  font-weight: bold;
+}
