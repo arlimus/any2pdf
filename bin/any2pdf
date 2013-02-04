@@ -2,6 +2,7 @@
 
 require 'pdfkit'
 require 'trollop'
+require 'fileutils'
 require 'nokogiri'
 require 'zlog'
 
@@ -17,6 +18,7 @@ opts = Trollop::options do
   opt :toc, "generate a table of contents"
   opt :toc_level, "which depth if headings to include in ToC", :default => 2, :type => :int
   opt :numbering, "whether to add numbering to all headings"
+  opt :embed, "when active embed js/css files instad of just linking to them"
 end
 
 # sanity checks
@@ -53,29 +55,41 @@ def get_style( stylename )
   ""
 end
 
-def md2html(file, opts, style)
+def md2html(file, opts, stylefile)
   return nil if not file.end_with?(".md")
   htmlfile = file.sub(/.md/,".html")
   htmlfile_raw = htmlfile+".raw.html"
 
   rel_path = File.expand_path('../Gemfile/../data', File.dirname(__FILE__))
-  raw_heading = <<-EOF
-    <link rel="stylesheet" href="#{rel_path}/boilerplate.css" />
-    <link rel="stylesheet" href="#{style}" />
-    <link rel="stylesheet" href="#{rel_path}/print.css" media="print"/>
-    <script src="#{rel_path}/jquery-1.9.0.min.js" ></script>
-  EOF
 
-  # table of contents
-  toc_generator = ''
-  toc_generator = "<script src=\"#{rel_path}/toc_generator.js\"></script>" if opts[:toc]
+  # prep-work for including style and script
+  style_e = lambda{|f,o| "<style type=\"text/css\" #{o}>\n#{File::read(f)}\n</style>" }
+  style_l = lambda{|f,o| "<link rel=\"stylesheet\" href=\"#{f}\" #{o} />" }
+  script_e = lambda{|f,o| "<script #{o}>\n#{File::read(f)}\n</script>" }
+  script_l = lambda{|f,o| "<script src=\"#{f}\" #{o} ></script>"}
+  style = opts[:embed] ? style_e : style_l
+  script = opts[:embed] ? script_e : script_l
+
+  # get all fields in the heading
+  raw_heading = [
+    # start with stylesheets
+    style.( rel_path+"/boilerplate.css", ''),
+    style.( stylefile, '' ),
+    style.( rel_path+"/print.css", 'media="print"'),
+    script.( rel_path+"/jquery-1.9.0.min.js", '' ),
+    ( opts[:toc] ? script.( rel_path+"/toc_generator.js", '' ) : '' )
+    ].join("\n\n")
 
   # create the html
   `pandoc "#{file}" -o "#{htmlfile_raw}"`
   raw_html = File::read htmlfile_raw
+  FileUtils::rm_rf htmlfile_raw
+
+  # additional options
   toc_level = opts[:toc_level]
   number_headings = (opts[:numbering] == true)
 
+  # actually create the result file
   renderer = ERB.new(File::read(rel_path + "/template.html.erb"))
   html = renderer.result(binding)
   File::write htmlfile, html
