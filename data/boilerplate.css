@@ -130,6 +130,15 @@ p{
   margin: 0.7em 0;
 }
 
+blockquote {
+  font-style: italic;
+  margin: 1em 0;
+  padding: 0.25em 40px;
+  line-height: 1.45;
+  position: relative;
+  color: #383838;
+}
+
 .figure{
   margin-bottom: 1.5em;
 }
