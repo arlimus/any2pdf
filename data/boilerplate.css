@@ -130,6 +130,11 @@ p{
   margin: 0.7em 0;
 }
 
+em{
+  font-style: italic;
+  color: #666;
+}
+
 blockquote {
   font-style: italic;
   margin: 1em 0;
