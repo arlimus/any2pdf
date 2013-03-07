@@ -17,8 +17,10 @@ Requirements
 
 * Ruby
 * Pandoc
-* pdfkit ruby gem + wkhtmltopdf
+* pdfkit ruby gem (requires wkhtmltopdf)
 * other gems: trollop, nokogiri
+* fonts
+    * Google Web Fonts: [ OpenSans ]( http://www.google.com/webfonts/specimen/Open+Sans )
 * monospace fonts
     * [ Consolas ]( http://www.ascenderfonts.com/font/consolas-regular.aspx ) (the preferred monospace font)
     * [ Droid Sans Mono ]( http://www.google.com/webfonts/specimen/Droid+Sans+Mono ) (alternative; part of Google Web Fonts)
