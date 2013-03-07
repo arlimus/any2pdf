@@ -188,7 +188,7 @@ code, pre {
   border-color: #ccc;
   margin: 0;
 
-  font-family: "DejaVu Sans Mono","Consolas",monospace;
+  font-family: "Consolas","Droid Sans Mono","DejaVu Sans Mono",monospace;
   overflow: auto;
   text-align:left;
 

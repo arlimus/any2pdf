@@ -19,6 +19,10 @@ Requirements
 * Pandoc
 * pdfkit ruby gem + wkhtmltopdf
 * other gems: trollop, nokogiri
+* monospace fonts
+    * [ Consolas ]( http://www.ascenderfonts.com/font/consolas-regular.aspx ) (the preferred monospace font)
+    * [ Droid Sans Mono ]( http://www.google.com/webfonts/specimen/Droid+Sans+Mono ) (alternative; part of Google Web Fonts)
+    * [ DejaVu Sans Mono ]( http://dejavu-fonts.org/wiki/Main_Page ) (another alternative for monospace)
 
 Installation
 ============
