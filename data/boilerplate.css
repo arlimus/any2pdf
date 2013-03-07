@@ -70,7 +70,7 @@ Written by: 2013 CC, Dominik Richter;
 
 body{
   line-height: 1.3em;
-  font-family: "Avenir LT 45 Book", sans-serif;
+  font-family: "Open Sans", sans-serif;
   /* initialize counters */
   counter-reset: head1;
   counter-reset: figure;
