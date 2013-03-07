@@ -99,7 +99,7 @@ You can also replace `default.css` if you like. It's called if you don't use the
 
 License and Author
 ==================
-Author:: Dominik Richter <dominik.richter@googlemail.com>
+Author: Dominik Richter <dominik.richter@googlemail.com>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
