@@ -102,9 +102,11 @@ def md2html(file, opts, stylefile)
 end
 
 def html2pdf(file, opts)
+  Zlog.debug "running html2pdf on '#{file}'"
   return nil if not file.end_with?(".html")
   pdffile = file.sub(/.html$/,".pdf")
   pdffile = opts.output if not opts.output.nil? and not opts.output.empty?
+  Zlog.debug "output pdf will be '#{pdffile}'"
 
   styles = []
   styles << opts.stylesheet
