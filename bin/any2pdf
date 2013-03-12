@@ -78,7 +78,7 @@ def md2html(file, opts, stylefile)
   raw_heading = [
     # start with stylesheets
     style.( rel_path+"/boilerplate.css", ''),
-    style.( stylefile, '' ),
+    style.( File::expand_path(stylefile), '' ),
     style.( rel_path+"/print.css", 'media="print"'),
     script.( rel_path+"/jquery-1.9.0.min.js", '' ),
     ( opts[:toc] ? script.( rel_path+"/toc_generator.js", '' ) : '' )
