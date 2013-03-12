@@ -22,6 +22,9 @@ opts = Trollop::options do
   opt :embed, "when active embed js/css files instad of just linking to them"
 end
 
+Zlog::level = Zlog::VERBOSE if opts[:verbose]
+Zlog::level = Zlog::DEBUG if opts[:debug]
+
 # sanity checks
 Trollop::die :toc_level, "must not be lower than 1" if opts[:toc_level] < 1
 Trollop::die :toc_level, "must not be higher than 6" if opts[:toc_level] > 6
