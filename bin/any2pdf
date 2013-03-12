@@ -61,7 +61,7 @@ end
 
 def md2html(file, opts, stylefile)
   return nil if not file.end_with?(".md")
-  htmlfile = file.sub(/.md/,".html")
+  htmlfile = file.sub(/.md$/,".html")
   htmlfile_raw = htmlfile+".raw.html"
 
   rel_path = File.expand_path('../Gemfile/../data', File.dirname(__FILE__))
@@ -103,7 +103,7 @@ end
 
 def html2pdf(file, opts)
   return nil if not file.end_with?(".html")
-  pdffile = file.sub(/.html/,".pdf")
+  pdffile = file.sub(/.html$/,".pdf")
   pdffile = opts.output if not opts.output.nil? and not opts.output.empty?
 
   styles = []
