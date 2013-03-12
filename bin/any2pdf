@@ -139,7 +139,7 @@ htmlfile = md2html(mdfile, opts, style)
 Zlog.warn "ww input was not an md-file, trying to convert it as html..." if htmlfile.nil?
 Zlog.ok "htmlfile: #{htmlfile}\n" if not htmlfile.nil?
 pdffile = html2pdf(mdfile, opts) || html2pdf(htmlfile, opts)
-Zlog.error "couldn't convert file from html to pdf..." if pdffile.nil?
+Zlog.abort "couldn't convert file from html to pdf..." if pdffile.nil?
 Zlog.ok "output: #{pdffile}\n" if not pdffile.nil?
 
 cmd = ""
