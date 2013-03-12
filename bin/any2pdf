@@ -13,6 +13,7 @@ opts = Trollop::options do
   opt :output, "output file", :default => ""
   opt :stylesheet, "stylesheet to load", :default => ""
   opt :input, "input file", :default => ""
+  opt :landscape, "if you want landscape instead of portrait"
   opt :view_cmd, "command used for viewing", :default => "v %s"
   opt :view, "what to view (pdf|html|none)", :default => "pdf"
   opt :toc, "generate a table of contents"
@@ -113,6 +114,7 @@ def html2pdf(file, opts)
 
   options = {
     footer_right:   "[page]/[topage]",
+    orientation:    (( opts[:landscape] ) ? "landscape" : "portrait" ),
     page_size:      'A4',
   }
   html = File::open(file).read()
