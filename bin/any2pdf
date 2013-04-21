@@ -39,23 +39,23 @@ def get_existing( f )
   return nil
 end
 
-def get_style( stylename )
+def get_style( stylename, type = "css" )
   rel_path = File.expand_path('../Gemfile/../data', File.dirname(__FILE__))
 
   if not stylename.nil? and not stylename.empty?
     return stylename if File::exists?(stylename)
 
     a =
-      get_existing("#{rel_path}/#{stylename}.css") ||
+      get_existing("#{rel_path}/#{stylename}.#{type}") ||
       get_existing("#{rel_path}/#{stylename}")
     return a if not a.nil?
     Zlog.warning "couldn't find stylesheet #{stylename}. Trying default.\n"
   end
 
   # try default, if the user supplied crap...
-  a = get_existing("#{rel_path}/default.css")
+  a = get_existing("#{rel_path}/default.#{type}")
   return a if not a.nil?
-  Zlog.error "Couldn't find internal stylesheet in #{rel_path}/default.css. Something is seriously wrong! try reinstalling?\n"
+  Zlog.error "Couldn't find internal stylesheet in #{rel_path}/default.#{type}. Something is seriously wrong! try reinstalling?\n"
   ""
 end
 
