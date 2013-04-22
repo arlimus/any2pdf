@@ -16,6 +16,7 @@ opts = Trollop::options do
   opt :landscape, "if you want landscape instead of portrait"
   opt :view_cmd, "command used for viewing", :default => "v %s"
   opt :view, "what to view (pdf|html|none)", :default => "pdf"
+  opt :renderer, "what engine to use for pdf creation (pdfkit|xelatex)", default: "pdfkit", type: :string
   opt :toc, "generate a table of contents"
   opt :toc_level, "which depth if headings to include in ToC", :default => 2, :type => :int
   opt :numbering, "whether to add numbering to all headings"
@@ -122,7 +123,39 @@ def pdfkit_html2pdf( file, outfile, opts )
     kit.stylesheets << style if File::exists?(style)
   end
 
-  kit.to_file(pdffile)
+  kit.to_file(outfile)
+end
+
+def xelatex_html2pdf( file, outfile, opts )
+  puts outfile
+  texfile = "#{outfile}".sub(/[.]pdf$/, '.tex')
+
+  cmd = "pandoc \"#{file}\" --listings -o \"#{texfile}\""
+  Zlog::debug "convert html to tex: #{cmd}"
+  `#{cmd}`
+
+  verb_opts = "mathescape,
+               linenos,
+               numbersep=5pt,
+               frame=single,
+               framesep=1mm,
+               bgcolor=colorcode_bg".gsub("\n",'')
+
+  tex = File::read(texfile).
+    # all verbatim stuff is in lstlistings like this:
+    # \begin{lstlisting}[language=bash]
+    # convert it to minted
+    gsub(/\\begin{lstlisting}\[language=([^\]]*)\]/){'\begin{minted}['+verb_opts+']{'+$1+'}'}.
+    gsub(/\\begin{lstlisting}/, '\begin{minted}['+verb_opts+']{bash}').
+    gsub(/\\lstinline(.)(.*?)\1/){ '\colorbox{colorcode_bg}{\lstinline'+$1+$2+$1+'}' }.
+    gsub(/\\end{lstlisting}/, '\end{minted}')
+
+  tex_style = get_style( opts[:stylesheet], 'tex' )
+  File::write texfile, File::read(tex_style).sub(/CONTENT/, tex)
+
+  cmd = "xelatex -shell-escape \"#{texfile}\""
+  Zlog::debug "convert tex to pdf: #{cmd}"
+  `#{cmd}`
 end
 
 def html2pdf(file, opts)
@@ -132,7 +165,14 @@ def html2pdf(file, opts)
   pdffile = opts.output if not opts.output.nil? and not opts.output.empty?
   Zlog.debug "output pdf will be '#{pdffile}'"
 
-  pdfkit_html2pdf( file, pdffile, opts )
+  case opts[:renderer]
+  when 'pdfkit'
+    pdfkit_html2pdf file, pdffile, opts
+  when 'xelatex'
+    xelatex_html2pdf file, pdffile, opts
+  else
+    Zlog::abort "Can't find renderer '#{opts[:renderer]}'. Please use a supported renderer!"
+  end
 
   pdffile
 end
