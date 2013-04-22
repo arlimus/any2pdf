@@ -43,9 +43,8 @@ def get_style( stylename, type = "css" )
   rel_path = File.expand_path('../Gemfile/../data', File.dirname(__FILE__))
 
   if not stylename.nil? and not stylename.empty?
-    return stylename if File::exists?(stylename)
-
     a =
+      get_existing(stylename) ||
       get_existing("#{rel_path}/#{stylename}.#{type}") ||
       get_existing("#{rel_path}/#{stylename}")
     return a if not a.nil?
