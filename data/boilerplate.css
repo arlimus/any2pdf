@@ -71,6 +71,7 @@ Written by: 2013 CC, Dominik Richter;
 body{
   line-height: 1.3em;
   font-family: "Open Sans", sans-serif;
+  font-variant-ligatures: common-ligatures contextual;
   /* initialize counters */
   counter-reset: head1;
   counter-reset: figure;
