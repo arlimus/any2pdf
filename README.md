@@ -33,27 +33,35 @@ Installation
 
 Eg for **Ubuntu**:
 
-    # in case you don't have ruby:
-    apt-get install ruby1.9.3
-    # or use any other ruby version / rvm / etc you like
+```bash
+# in case you don't have ruby:
+apt-get install ruby1.9.3
+# or use any other ruby version / rvm / etc you like
 
-    apt-get install pandoc wkhtmltopdf
+apt-get install pandoc wkhtmltopdf
+```
 
 Eg for **Arch Linux**: Get `pandoc` from AUR, easiest done via `yaourt`
 
-    yaourt -S ruby
-    yaourt -S pandoc wkhtmltopdf
+```bash
+yaourt -S ruby
+yaourt -S pandoc wkhtmltopdf
+```
 
 **2.** **Install this app**
 
 Get the files if you don't have them already:
 
-    git clone <this-git-repo>
-    cd any2pdf
+```bash
+git clone <this-git-repo>
+cd any2pdf
+```
 
 And install:
 
-    gem build *.gemspec && gem install *.gem
+```bash
+gem build *.gemspec && gem install *.gem
+```
 
 It will pull in dependencies. If everything is correctly configured, you can use the command now.
 
@@ -63,22 +71,30 @@ Usage
 
 Read the help
 
-    any2pdf --help
+```bash
+any2pdf --help
+```
 
 Try it
 
-    any2pdf test.md
+```bash
+any2pdf test.md
+```
 
 View `test.pdf`. View `test.html`.
 
 Try styles:
 
-    # have mystyle.css in your folder
-    any2pdf test.md -s mystyle.css
+```bash
+# have mystyle.css in your folder
+any2pdf test.md -s mystyle.css
+```
 
 Try global styles:
 
-    any2pdf test.md -s blue
+```bash
+any2pdf test.md -s blue
+```
 
 
 Custom Global Styles
@@ -86,21 +102,29 @@ Custom Global Styles
 
 This is for the very lazy (like me). Put your own styles into the installed gem folder under `data/`, eg:
 
-    cd ~/.gem/ruby/1.9.1/gems/any2pdf-1.0.0/data/
-    ls
-    touch mysexystyle.css
+```bash
+cd ~/.gem/ruby/1.9.1/gems/any2pdf-1.0.0/data/
+ls
+touch mysexystyle.css
+```
 
 And now you can use it with either:
 
-    any2pdf test.md -s mysexystyle.css
+```bash
+any2pdf test.md -s mysexystyle.css
+```
 
 Or just:
 
-    any2pdf test.md -s mysexystyle
+```bash
+any2pdf test.md -s mysexystyle
+```
 
 You can also replace `default.css` if you like. It's called if you don't use the `-s` option, eg:
 
-    any2pdf test.md
+```bash
+any2pdf test.md
+```
 
 
 License and Author
