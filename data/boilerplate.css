@@ -271,3 +271,10 @@ th {
   border-bottom: 0.13em solid black;
   font-weight: bold;
 }
+
+header {
+  text-align: center;
+  font-size: 2.2em;
+  margin: 1em 0 1.5em 0;
+  font-weight: bold;
+}
