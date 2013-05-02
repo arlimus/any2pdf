@@ -4,6 +4,7 @@ require 'pdfkit'
 require 'trollop'
 require 'fileutils'
 require 'nokogiri'
+require 'uri'
 require 'zlog'
 
 opts = Trollop::options do
@@ -111,12 +112,17 @@ def pdfkit_html2pdf( file, outfile, opts )
     styles << e.attr("href")
   end
 
+  # update the html links to make sure that local links (relative) work
+  ( dom.css("@src") + dom.css("@href") ).
+    find_all{|src| (src.value =~ URI::regexp) == nil }.
+    each{|src| src.value = File::expand_path(src.value) }
+
   options = {
     footer_right:   "[page]/[topage]",
     orientation:    (( opts[:landscape] ) ? "landscape" : "portrait" ),
     page_size:      'A4',
   }
-  html = File::open(file).read()
+  html = dom.to_s
   kit = PDFKit.new(html, options)
   
   styles.compact.each do |style| 
