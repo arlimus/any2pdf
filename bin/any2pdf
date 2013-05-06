@@ -72,7 +72,7 @@ def embed_html( raw, source )
 
     # embed all parts into the html
     EM::synchrony do
-      w.spiderHtmlElements( 'file://'+File::expand_path(File::dirname(source)), h )
+      w.spiderHtmlElements( 'file://'+File::expand_path(source), h )
       EM.stop
     end
 
