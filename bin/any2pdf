@@ -60,6 +60,10 @@ def get_style( stylename, type = "css" )
   ""
 end
 
+def embed_html( raw )
+  raw
+end
+
 def md2html(file, opts, stylefile)
   return nil if not file.end_with?(".md")
   htmlfile = file.sub(/.md$/,".html")
@@ -96,9 +100,10 @@ def md2html(file, opts, stylefile)
 
   # actually create the result file
   renderer = ERB.new(File::read(rel_path + "/template.html.erb"))
-  html = renderer.result(binding)
-  File::write htmlfile, html
+  html = embed_html( renderer.result(binding) )
   
+  # save the html to file
+  File::write htmlfile, html
   htmlfile
 end
 
