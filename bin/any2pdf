@@ -60,6 +60,29 @@ def get_style( stylename, type = "css" )
   ""
 end
 
+def embed_html( raw, source )
+  begin
+    require 'websnap'
+    require 'em-synchrony'
+    w = WebSnap.new( nil, nil )
+
+    # parse raw html contents
+    Zlog::info "embedding html via websnap"
+    h = Nokogiri::HTML(raw)
+
+    # embed all parts into the html
+    EM::synchrony do
+      w.spiderHtmlElements( 'file://'+File::expand_path(source), h )
+      EM.stop
+    end
+
+    # return the resulting html as string
+    h.to_s
+  rescue LoadError
+    return raw
+  end
+end
+
 def md2html(file, opts, stylefile)
   return nil if not file.end_with?(".md")
   htmlfile = file.sub(/.md$/,".html")
@@ -96,9 +119,10 @@ def md2html(file, opts, stylefile)
 
   # actually create the result file
   renderer = ERB.new(File::read(rel_path + "/template.html.erb"))
-  html = renderer.result(binding)
-  File::write htmlfile, html
+  html = embed_html( renderer.result(binding), file )
   
+  # save the html to file
+  File::write htmlfile, html
   htmlfile
 end
 
