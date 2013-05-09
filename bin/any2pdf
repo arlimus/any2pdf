@@ -63,7 +63,6 @@ end
 def embed_html( raw, source )
   begin
     require 'websnap'
-    require 'em-synchrony'
     w = WebSnap.new( nil, nil )
 
     # parse raw html contents
@@ -71,10 +70,7 @@ def embed_html( raw, source )
     h = Nokogiri::HTML(raw)
 
     # embed all parts into the html
-    EM::synchrony do
-      w.spiderHtmlElements( 'file://'+File::expand_path(source), h )
-      EM.stop
-    end
+    w.spiderHtmlElements( 'file://'+File::expand_path(source), h )
 
     # return the resulting html as string
     h.to_s
