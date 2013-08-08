@@ -17,8 +17,8 @@ Requirements
 
 * Ruby
 * Pandoc
-* pdfkit ruby gem (requires wkhtmltopdf)
-* other gems: trollop, nokogiri
+* wkhtmltopdf
+* gems: pdfkit trollop, nokogiri
 * fonts
     * Google Web Fonts: [ OpenSans ]( http://www.google.com/webfonts/specimen/Open+Sans )
 * monospace fonts
@@ -50,16 +50,11 @@ yaourt -S pandoc wkhtmltopdf
 
 **2.** **Install this app**
 
-Get the files if you don't have them already:
+Get the files and install:
 
 ```bash
 git clone <this-git-repo>
 cd any2pdf
-```
-
-And install:
-
-```bash
 gem build *.gemspec && gem install *.gem
 ```
 
