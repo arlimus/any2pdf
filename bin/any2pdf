@@ -5,6 +5,7 @@ require 'trollop'
 require 'fileutils'
 require 'nokogiri'
 require 'uri'
+require 'erb'
 require 'zlog'
 
 opts = Trollop::options do
@@ -24,8 +25,10 @@ opts = Trollop::options do
   opt :embed, "when active embed js/css files instad of just linking to them"
 end
 
-Zlog::level = Zlog::VERBOSE if opts[:verbose]
-Zlog::level = Zlog::DEBUG if opts[:debug]
+Zlog.init_stdout loglevel: :warn    if not opts[:verbose] and not opts[:debug]
+Zlog.init_stdout loglevel: :info    if opts[:verbose]
+Zlog.init_stdout loglevel: :debug   if opts[:debug]
+Log = Logging.logger['any2pdf']
 
 # sanity checks
 Trollop::die :toc_level, "must not be lower than 1" if opts[:toc_level] < 1
@@ -50,13 +53,13 @@ def get_style( stylename, type = "css" )
       get_existing("#{rel_path}/#{stylename}.#{type}") ||
       get_existing("#{rel_path}/#{stylename}")
     return a if not a.nil?
-    Zlog.warning "couldn't find stylesheet #{stylename}. Trying default.\n"
+    Log.warn "couldn't find stylesheet #{stylename}. Trying default.\n"
   end
 
   # try default, if the user supplied crap...
   a = get_existing("#{rel_path}/default.#{type}")
   return a if not a.nil?
-  Zlog.error "Couldn't find internal stylesheet in #{rel_path}/default.#{type}. Something is seriously wrong! try reinstalling?\n"
+  Log.error "Couldn't find internal stylesheet in #{rel_path}/default.#{type}. Something is seriously wrong! try reinstalling?\n"
   ""
 end
 
@@ -66,7 +69,7 @@ def embed_html( raw, source )
     w = WebSnap.new( nil, nil )
 
     # parse raw html contents
-    Zlog::info "embedding html via websnap"
+    Log.info "embedding html via websnap"
     h = Nokogiri::HTML(raw)
 
     # embed all parts into the html
@@ -157,7 +160,7 @@ def xelatex_html2pdf( file, outfile, opts )
   texfile = "#{outfile}".sub(/[.]pdf$/, '.tex')
 
   cmd = "pandoc \"#{file}\" --listings -o \"#{texfile}\""
-  Zlog::debug "convert html to tex: #{cmd}"
+  Log.debug "convert html to tex: #{cmd}"
   `#{cmd}`
 
   verb_opts = "mathescape,
@@ -180,16 +183,16 @@ def xelatex_html2pdf( file, outfile, opts )
   File::write texfile, File::read(tex_style).sub(/CONTENT/, tex)
 
   cmd = "xelatex -shell-escape \"#{texfile}\""
-  Zlog::debug "convert tex to pdf: #{cmd}"
+  Log.debug "convert tex to pdf: #{cmd}"
   `#{cmd}`
 end
 
 def html2pdf(file, opts)
-  Zlog.debug "running html2pdf on '#{file}'"
+  Log.debug "running html2pdf on '#{file}'"
   return nil if not file.end_with?(".html")
   pdffile = file.sub(/.html$/,".pdf")
   pdffile = opts.output if not opts.output.nil? and not opts.output.empty?
-  Zlog.debug "output pdf will be '#{pdffile}'"
+  Log.debug "output pdf will be '#{pdffile}'"
 
   case opts[:renderer]
   when 'pdfkit'
@@ -197,20 +200,20 @@ def html2pdf(file, opts)
   when 'xelatex'
     xelatex_html2pdf file, pdffile, opts
   else
-    Zlog::abort "Can't find renderer '#{opts[:renderer]}'. Please use a supported renderer!"
+    Log.abort "Can't find renderer '#{opts[:renderer]}'. Please use a supported renderer!"
   end
 
   pdffile
 end
 
 style = get_style( opts[:stylesheet] )
-Zlog.info "using stylesheet: #{style}\n"
+Log.info "using stylesheet: #{style}\n"
 htmlfile = md2html(mdfile, opts, style)
-Zlog.warn "ww input was not an md-file, trying to convert it as html..." if htmlfile.nil?
-Zlog.ok "htmlfile: #{htmlfile}\n" if not htmlfile.nil?
+Log.warn "ww input was not an md-file, trying to convert it as html..." if htmlfile.nil?
+Log.ok "htmlfile: #{htmlfile}\n" if not htmlfile.nil?
 pdffile = html2pdf(mdfile, opts) || html2pdf(htmlfile, opts)
-Zlog.abort "couldn't convert file from html to pdf..." if pdffile.nil?
-Zlog.ok "output: #{pdffile}\n" if not pdffile.nil?
+Log.abort "couldn't convert file from html to pdf..." if pdffile.nil?
+Log.ok "output: #{pdffile}\n" if not pdffile.nil?
 
 cmd = ""
 case opts[:view]
@@ -220,10 +223,10 @@ when "html"
   cmd = opts[:view_cmd] % [ '"'+htmlfile+'"' ]
 when "none"
 else
-  Zlog.warn "don't know '#{opts[:view]}' to view\n"
+  Log.warn "don't know '#{opts[:view]}' to view\n"
 end
 
 if not cmd.empty?
-  Zlog.info "view with: '#{cmd}'"
+  Log.info "view with: '#{cmd}'"
   system cmd
 end
