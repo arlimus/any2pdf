@@ -50,16 +50,9 @@ yaourt -S pandoc wkhtmltopdf
 
 **2.** **Install this app**
 
-Get the files and install:
-
 ```bash
-git clone <this-git-repo>
-cd any2pdf
-gem build *.gemspec && gem install *.gem
+gem install any2pdf
 ```
-
-It will pull in dependencies. If everything is correctly configured, you can use the command now.
-
 
 Usage
 =====
