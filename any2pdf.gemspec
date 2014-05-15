@@ -11,6 +11,8 @@ Gem::Specification.new do |s|
   s.add_dependency "pdfkit"
   s.add_dependency "trollop"
   s.add_dependency "nokogiri"
+  s.add_dependency "fileutils"
+  s.add_dependency "zlog"
   
   s.files = `git ls-files`.split("\n")
   s.executables = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
