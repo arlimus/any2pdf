@@ -1,6 +1,8 @@
 Any2Pdf
 ========
 
+[![RubyGems][gem_version_badge]][ruby_gems]
+
 Convert things to PDF. This is a quick and dirty collection of scripts I have grown accustomed to coupled with an inherent lazyness to enter tedious commands. Remember: it is dirty by design.
 
 Currently supports:
