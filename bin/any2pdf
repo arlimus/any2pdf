@@ -17,7 +17,7 @@ opts = Trollop::options do
   opt :input, "input file", :default => ""
   opt :landscape, "if you want landscape instead of portrait"
   opt :view_cmd, "command used for viewing", :default => "v %s"
-  opt :view, "what to view (pdf|html|none)", :default => "pdf"
+  opt :view, "what to view (pdf|html|none)", :default => "none"
   opt :renderer, "what engine to use for pdf creation (pdfkit|xelatex)", default: "pdfkit", type: :string
   opt :toc, "generate a table of contents"
   opt :toc_level, "which depth if headings to include in ToC", :default => 2, :type => :int
