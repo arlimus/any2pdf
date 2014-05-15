@@ -41,11 +41,15 @@ apt-get install ruby1.9.3
 apt-get install pandoc wkhtmltopdf
 ```
 
-Eg for **Arch Linux**: Get `pandoc` from AUR, easiest done via `yaourt`
+Eg for **Arch Linux**: Get `pandoc` from AUR, easiest done via `yaourt`. You will need `haskell-core` in your `pacman.conf`:
+
+    [haskell-core]
+    Server = http://xsounds.org/~haskell/core/$arch
+
+Then you can:
 
 ```bash
-yaourt -S ruby
-yaourt -S pandoc wkhtmltopdf
+yaourt -S ruby haskell-pandoc wkhtmltopdf
 ```
 
 **2.** **Install this app**
