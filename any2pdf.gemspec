@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.summary = "convert anything to pdf (via pandoc and pdfkit)"
   s.description = s.summary
   s.author = "Dominik Richter"
-  s.email = "dominik.richter@googlemail.com"  
+  s.email = "dominik.richter@gmail.com"
 
   s.add_dependency "pdfkit"
   s.add_dependency "trollop"

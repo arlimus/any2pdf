@@ -36,8 +36,8 @@ Eg for **Ubuntu**:
 ```bash
 # in case you don't have ruby:
 apt-get install ruby1.9.3
-# or use any other ruby version / rvm / etc you like
 
+# and any other applications
 apt-get install pandoc wkhtmltopdf
 ```
 
