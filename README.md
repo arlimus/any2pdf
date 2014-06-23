@@ -48,6 +48,13 @@ Eg for **Arch Linux**: Get `pandoc` from `haskell-core`. It requires in your `pa
     [haskell-core]
     Server = http://xsounds.org/~haskell/core/$arch
 
+Eg. for mac
+```bash
+# use https://github.com/pdfkit/PDFKit/wiki/Installing-WKHTMLTOPDF
+# or try to use the gem
+gem install wkhtmltopdf-binary
+```
+
 Then you can:
 
 ```bash
