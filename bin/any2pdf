@@ -4,6 +4,7 @@ require 'pdfkit'
 require 'trollop'
 require 'fileutils'
 require 'nokogiri'
+require 'css_parser'
 require 'uri'
 require 'erb'
 require 'zlog'
@@ -125,9 +126,56 @@ def md2html(file, opts, stylefile)
   htmlfile
 end
 
+def get_style_options style_file
+  return {} unless File::file? style_file
+
+  declarations = []
+
+  css = CssParser::Parser.new
+  css.load_file! style_file
+  css.each_rule_set do |rule|
+    if rule.selectors.include? '#pdf'
+      rule.each_declaration do |id, params|
+        declarations.push [id, params]
+      end
+    end
+  end
+
+  # check all rules
+  opts = {}
+  declarations.each do |field,value|
+    if field == 'margin'
+      vals = value.split(' ');
+      if vals.length == 4
+        opts[:margin_top] = vals[0]
+        opts[:margin_right] = vals[1]
+        opts[:margin_bottom] = vals[2]
+        opts[:margin_left] = vals[3]
+      end
+      if vals.length == 2
+        opts[:margin_top] = vals[0]
+        opts[:margin_right] = vals[1]
+        opts[:margin_bottom] = vals[0]
+        opts[:margin_left] = vals[1]
+      end
+      if vals.length == 1
+        opts[:margin_top] = vals[0]
+        opts[:margin_right] = vals[0]
+        opts[:margin_bottom] = vals[0]
+        opts[:margin_left] = vals[0]
+      end
+    end
+
+  end
+
+  opts
+end
+
 def pdfkit_html2pdf( file, outfile, opts )
   styles = []
   styles << opts.stylesheet
+
+  style_opts = get_style_options opts.stylesheet
 
   # find css files
   dom = Nokogiri::parse( File::open(file).read() )
@@ -144,10 +192,10 @@ def pdfkit_html2pdf( file, outfile, opts )
     footer_right:   "[page]/[topage]",
     orientation:    (( opts[:landscape] ) ? "landscape" : "portrait" ),
     page_size:      'A4',
-  }
+  }.merge(style_opts)
   html = dom.to_s
   kit = PDFKit.new(html, options)
-  
+
   styles.compact.each do |style| 
     kit.stylesheets << style if File::exists?(style)
   end
