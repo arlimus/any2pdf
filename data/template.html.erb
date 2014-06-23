@@ -12,8 +12,10 @@
         up to level <%= toc_level %>*/
         for( var lvl=1; lvl <= <%= toc_level %>; lvl++){
           $("h"+lvl).addClass("in_toc")
+          $("header h"+lvl).removeClass("in_toc")
           <% if number_headings %>
           $("h"+lvl).addClass("numbering")
+          $("header h"+lvl).removeClass("numbering")
           <% end %>
         }
         window.gen_toc();
@@ -22,7 +24,6 @@
     </script>
   </head>
   <body id="home">
-    <div id="toc" ></div>
     <%= raw_html %>
   </body>
 </html>

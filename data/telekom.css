@@ -38,3 +38,7 @@ code, pre{
 table{
   border-top-color: #e2007f;
 }
+
+header {
+  page-break-after: always;
+}

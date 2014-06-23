@@ -109,7 +109,7 @@ def md2html(file, opts, stylefile)
     ].join("\n\n")
 
   # create the html
-  `pandoc "#{file}" -o "#{htmlfile_raw}"`
+  `pandoc "#{file}" -o "#{htmlfile_raw}" --template #{rel_path}/pandoc-template.html --toc`
   raw_html = File::read htmlfile_raw
   FileUtils::rm_rf htmlfile_raw
 
