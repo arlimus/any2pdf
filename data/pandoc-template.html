@@ -4,20 +4,21 @@ $endfor$
 
 $if(title)$
 <header>
-  <h1 class="title">$title$</h1>
+  <h1 class="title fixed-heading">$title$</h1>
   $if(subtitle)$
-  <h1 class="subtitle">$subtitle$</h1>
+  <h1 class="subtitle fixed-heading">$subtitle$</h1>
   $endif$
   $for(author)$
-  <h2 class="author">$author$</h2>
+  <h2 class="author fixed-heading">$author$</h2>
   $endfor$
   $if(date)$
-  <h3 class="date">$date$</h3>
+  <h3 class="date fixed-heading">$date$</h3>
   $endif$
 </header>
 $endif$
 
 $if(toc)$
+<h1 class="toc fixed-heading">Table of contents</h1>
 <nav id="$idprefix$TOC">
   $toc$
 </nav>
