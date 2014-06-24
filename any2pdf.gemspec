@@ -12,7 +12,6 @@ Gem::Specification.new do |s|
   s.add_dependency "css_parser"
   s.add_dependency "trollop"
   s.add_dependency "nokogiri"
-  s.add_dependency "fileutils"
   s.add_dependency "zlog"
   
   s.files = `git ls-files`.split("\n")

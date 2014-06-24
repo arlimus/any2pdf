@@ -2,7 +2,6 @@
 
 require 'pdfkit'
 require 'trollop'
-require 'fileutils'
 require 'nokogiri'
 require 'css_parser'
 require 'uri'
@@ -111,7 +110,7 @@ def md2html(file, opts, stylefile)
   # create the html
   `pandoc "#{file}" -o "#{htmlfile_raw}" --template #{rel_path}/pandoc-template.html --toc`
   raw_html = File::read htmlfile_raw
-  FileUtils::rm_rf htmlfile_raw
+  File.delete htmlfile_raw
 
   # additional options
   toc_level = opts[:toc_level]
