@@ -49,10 +49,9 @@ Eg for **Arch Linux**: Get `pandoc` from `haskell-core`. It requires in your `pa
     Server = http://xsounds.org/~haskell/core/$arch
 
 Eg. for **mac**
-```bash
-# use https://github.com/pdfkit/PDFKit/wiki/Installing-WKHTMLTOPDF
-# or try to use the gem
-gem install wkhtmltopdf-binary
+
+Download the `wkhtmltopdf` tool from http://wkhtmltopdf.org/downloads.html. Do not use any gems to install wkhtmltopdf because this leads to strange rendering issues.
+
 ```
 
 Then you can:
