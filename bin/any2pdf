@@ -49,10 +49,13 @@ def fill_in_metadata( path )
   end
   Log.info "Adding git metadata: #{tag} #{commit} #{date}"
 
+  time = Time.at( date.to_i )
+  timestamp = "%04d-%02d-%02d" % [ time.year, time.month, time.day ]
+
   content = File::read(path)
   info = ["---",
     "git_commit: #{commit}",
-    "git_date: #{date}",
+    "git_date: #{timestamp}",
     (tag == "" ) ? nil : "git_tag: #{tag}"
     ].compact.join("\n") + "\n"
 
