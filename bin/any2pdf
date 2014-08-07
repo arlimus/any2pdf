@@ -16,6 +16,7 @@ opts = Trollop::options do
   opt :stylesheet, "stylesheet to load", :default => ""
   opt :input, "input file", :default => ""
   opt :landscape, "if you want landscape instead of portrait"
+  opt :gitinfo, "if you want to add the current commit ID, date, and tag"
   opt :view_cmd, "command used for viewing", :default => "v %s"
   opt :view, "what to view (pdf|html|none)", :default => "none"
   opt :renderer, "what engine to use for pdf creation (pdfkit|xelatex)", default: "pdfkit", type: :string
@@ -37,6 +38,36 @@ Trollop::die :toc_level, "must not be higher than 6" if opts[:toc_level] > 6
 mdfile = ARGV.first
 Trollop::die :input, "must be supplied" if mdfile.nil?
 Trollop::die :input, "#{mdfile} must exist" if not File::exists?(mdfile)
+
+def fill_in_metadata( path )
+  tag = `git describe --tags --abbrev=0`.chomp
+  gitlog = `git log -1 --pretty=format:'%h %ct'`
+  commit, date = gitlog.split(" ")
+  if commit == "" || date == nil
+    Log.warn "Can't find git info for latest commit. Ignoring."
+    return
+  end
+  Log.info "Adding git metadata: #{tag} #{commit} #{date}"
+
+  content = File::read(path)
+  info = ["---",
+    "git_commit: #{commit}",
+    "git_date: #{date}",
+    (tag == "" ) ? nil : "git_tag: #{tag}"
+    ].compact.join("\n") + "\n"
+
+  if content.start_with?("---\n")
+    nu = content.sub("---\n",info)
+  else
+    nu = info + "---\n" + content
+  end
+
+  nupath = ".~"+path
+  File::write( nupath, nu )
+  nupath
+end
+
+mdfile = fill_in_metadata(mdfile) if opts[:gitinfo]
 
 def get_existing( f )
   path = File::expand_path(f)
