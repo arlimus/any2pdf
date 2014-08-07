@@ -38,6 +38,7 @@ Trollop::die :toc_level, "must not be higher than 6" if opts[:toc_level] > 6
 mdfile = ARGV.first
 Trollop::die :input, "must be supplied" if mdfile.nil?
 Trollop::die :input, "#{mdfile} must exist" if not File::exists?(mdfile)
+htmlfile = mdfile.sub(/.md$/,".html")
 
 def fill_in_metadata( path )
   tag = `git describe --tags --abbrev=0`.chomp
@@ -116,10 +117,9 @@ def embed_html( raw, source )
   end
 end
 
-def md2html(file, opts, stylefile)
+def md2html(file, outfile, opts, stylefile)
   return nil if not file.end_with?(".md")
-  htmlfile = file.sub(/.md$/,".html")
-  htmlfile_raw = htmlfile+".raw.html"
+  outfile_raw = outfile+".raw.html"
 
   rel_path = File.expand_path('../Gemfile/../data', File.dirname(__FILE__))
 
@@ -142,9 +142,9 @@ def md2html(file, opts, stylefile)
     ].join("\n\n")
 
   # create the html
-  `pandoc "#{file}" -o "#{htmlfile_raw}" --template #{rel_path}/pandoc-template.html --toc`
-  raw_html = File::read htmlfile_raw
-  File.delete htmlfile_raw
+  `pandoc "#{file}" -o "#{outfile_raw}" --template #{rel_path}/pandoc-template.html --toc`
+  raw_html = File::read outfile_raw
+  File.delete outfile_raw
 
   # additional options
   toc_level = opts[:toc_level]
@@ -155,8 +155,8 @@ def md2html(file, opts, stylefile)
   html = embed_html( renderer.result(binding), file )
   
   # save the html to file
-  File::write htmlfile, html
-  htmlfile
+  File::write outfile, html
+  outfile
 end
 
 def get_style_options style_file
@@ -289,7 +289,7 @@ end
 
 style = get_style( opts[:stylesheet] )
 Log.info "using stylesheet: #{style}\n"
-htmlfile = md2html(mdfile, opts, style)
+htmlfile = md2html(mdfile, htmlfile, opts, style)
 Log.warn "ww input was not an md-file, trying to convert it as html..." if htmlfile.nil?
 Log.ok "htmlfile: #{htmlfile}\n" if not htmlfile.nil?
 pdffile = html2pdf(mdfile, opts) || html2pdf(htmlfile, opts)
