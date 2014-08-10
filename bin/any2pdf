@@ -21,6 +21,7 @@ opts = Trollop::options do
   opt :toc_level, "which depth if headings to include in ToC", :default => 2, :type => :int
   opt :numbering, "whether to add numbering to all headings"
   opt :embed, "when active embed js/css files instad of just linking to them"
+  opt :clean, "clean up when done"
 end
 
 Zlog.init_stdout loglevel: :warn    if not opts[:verbose] and not opts[:debug]
@@ -71,4 +72,9 @@ end
 if not cmd.empty?
   Log.info "view with: '#{cmd}'"
   system cmd
+end
+
+if opts[:clean]
+  File::delete( tmpmdfile ) if File::file? tmpmdfile
+  File::delete( htmlfile ) if File::file? htmlfile
 end
