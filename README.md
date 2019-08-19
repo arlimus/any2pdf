@@ -20,7 +20,6 @@ Requirements
 * Ruby
 * Pandoc
 * wkhtmltopdf
-* gems: pdfkit trollop, nokogiri
 * fonts
     * Google Web Fonts: [ OpenSans ]( http://www.google.com/webfonts/specimen/Open+Sans )
 * monospace fonts

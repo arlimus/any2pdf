@@ -1,24 +1,24 @@
 #!/usr/bin/env ruby
 
-require 'trollop'
+require 'optimist'
 require 'zlog'
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'any2pdf'
 
-opts = Trollop::options do
+opts = Optimist::options do
   banner "usage: any2pdf <file>"
   opt :verbose, "be verbose"
   opt :debug, "provides debugging infos"
-  opt :output, "output file", :default => ""
-  opt :stylesheet, "stylesheet to load", :default => ""
-  opt :input, "input file", :default => ""
+  opt :output, "output file", default: ""
+  opt :stylesheet, "stylesheet to load", default: ""
+  opt :input, "input file", default: ""
   opt :landscape, "if you want landscape instead of portrait"
   opt :gitinfo, "if you want to add the current commit ID, date, and tag"
-  opt :view_cmd, "command used for viewing", :default => "v %s"
-  opt :view, "what to view (pdf|html|none)", :default => "none"
+  opt :view_cmd, "command used for viewing", default: "v %s"
+  opt :view, "what to view (pdf|html|none)", default: "none"
   opt :renderer, "what engine to use for pdf creation (pdfkit|xelatex)", default: "pdfkit", type: :string
   opt :toc, "generate a table of contents"
-  opt :toc_level, "which depth if headings to include in ToC", :default => 2, :type => :int
+  opt :toc_level, "which depth if headings to include in ToC", default: 2, type: :int
   opt :numbering, "whether to add numbering to all headings"
   opt :embed, "when active embed js/css files instad of just linking to them"
   opt :clean, "clean up when done"
@@ -30,12 +30,12 @@ Zlog.init_stdout loglevel: :debug   if opts[:debug]
 Log = Logging.logger['any2pdf']
 
 # sanity checks
-Trollop::die :toc_level, "must not be lower than 1" if opts[:toc_level] < 1
-Trollop::die :toc_level, "must not be higher than 6" if opts[:toc_level] > 6
+Optimist::die :toc_level, "must not be lower than 1" if opts[:toc_level] < 1
+Optimist::die :toc_level, "must not be higher than 6" if opts[:toc_level] > 6
 
 mdfile = ARGV.first
-Trollop::die :input, "must be supplied" if mdfile.nil?
-Trollop::die :input, "#{mdfile} must exist" if not File::exists?(mdfile)
+Optimist::die :input, "must be supplied" if mdfile.nil?
+Optimist::die :input, "#{mdfile} must exist" if not File::exists?(mdfile)
 htmlfile = mdfile.sub(/.md$/,".html")
 tmpmdfile = ".~" + mdfile
 
